@@ -25,7 +25,7 @@ button,.tap{touch-action:manipulation;cursor:pointer;-webkit-user-select:none;us
 position:fixed;top:0;left:0;right:0;z-index:999;word-break:break-all}
 .wrap{max-width:520px;margin:0 auto;padding:0 14px}
 
-/* ===== หัวแถบ: กันชน Dynamic Island + ติดหนึบตอนเลื่อน ===== */
+/* หัวแถบ */
 header{position:sticky;top:0;z-index:30;background:var(--bg);
 padding-top:max(env(safe-area-inset-top,0px),16px);padding-bottom:6px}
 .mrow{display:flex;align-items:center;justify-content:center;gap:18px;
@@ -65,7 +65,10 @@ overflow-y:auto;-webkit-overflow-scrolling:touch}
 .panel{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-radius:24px 24px 0 0;
 padding:8px 16px calc(20px + env(safe-area-inset-bottom,0px));
 max-height:calc(94vh - env(safe-area-inset-top,0px));overflow-y:auto;max-width:520px;margin:0 auto}
-.grab{width:40px;height:4px;background:var(--line);border-radius:4px;margin:8px auto 14px}
+.grab{width:40px;height:4px;background:var(--line);border-radius:4px;margin:8px auto 6px}
+.panel-header{display:flex;justify-content:flex-end;margin-bottom:6px}
+.close-btn{background:var(--card2);color:var(--sub);border:0;padding:6px 12px;border-radius:10px;font-size:14px;font-weight:500}
+
 .seg{display:flex;background:var(--card);border-radius:14px;padding:4px;margin-bottom:14px}
 .seg button{flex:1;border:0;background:none;color:var(--sub);padding:11px;border-radius:11px;
 font-size:15px;font-weight:600}
@@ -116,6 +119,9 @@ h3{font-size:15px;margin:18px 0 10px;color:var(--sub);font-weight:600}
 
 <div class="sheet" id="shTx" data-close="1"><div class="panel">
   <div class="grab"></div>
+  <div class="panel-header">
+    <button class="close-btn" data-act="close">✕ ปิด</button>
+  </div>
   <div class="seg">
     <button id="bEx" class="on" data-act="type" data-v="expense">รายจ่าย</button>
     <button id="bIn" data-act="type" data-v="income">รายรับ</button>
@@ -135,10 +141,12 @@ h3{font-size:15px;margin:18px 0 10px;color:var(--sub);font-weight:600}
 </div></div>
 
 <div class="sheet" id="shSum" data-close="1"><div class="panel"><div class="grab"></div>
+  <div class="panel-header"><button class="close-btn" data-act="close">✕ ปิด</button></div>
   <h3>สรุปรายจ่ายตามหมวด</h3><div id="sumBody"></div>
 </div></div>
 
 <div class="sheet" id="shSet" data-close="1"><div class="panel"><div class="grab"></div>
+  <div class="panel-header"><button class="close-btn" data-act="close">✕ ปิด</button></div>
   <h3>หมวดหมู่</h3><div id="catBody"></div>
   <h3>ข้อมูล</h3>
   <div class="row"><span>ส่งออก CSV</span><button data-act="csv">ส่งออก</button></div>
@@ -291,6 +299,7 @@ document.addEventListener('click',function(e){
  else if(a==='next'){cur=new Date(cur.getFullYear(),cur.getMonth()+1,1);render()}
  else if(a==='new')openTx(null);
  else if(a==='edit')openTx(v);
+ else if(a==='close')closeAll();
  else if(a==='type')setType(v);
  else if(a==='pick'){cat=db.cats[type][+v].k;setType(type)}
  else if(a==='key')key(v);
